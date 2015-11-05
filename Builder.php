@@ -317,8 +317,10 @@ class Builder
         {
             foreach ($st_params['ApiParams'] as $param)
             {
+                $nameParam = (isset($param['name']))? $param['name']:'';
+                $descriptionParam = (isset($param['description'])) ? $param['description'] : '';
                 $sampleParam = (isset($param['sample']))? $param['sample']:'';
-                $params[] = strtr(static::$sandboxFormInputTpl, array('{{ name }}' => $param['name'], '{{ description }}' => $param['description'], '{{ sample }}' => $sampleParam));
+                $params[] = strtr(static::$sandboxFormInputTpl, array('{{ name }}' => $nameParam, '{{ description }}' => $descriptionParam, '{{ sample }}' => $sampleParam));
             }
         }
 
