@@ -55,6 +55,20 @@
                 <div class="form-group">
                     <input type="text" class="form-control input-sm" placeholder="Password" id="basic_auth_password">
                 </div>
+                <br/>
+                <br/>
+                <div class="form-group" style="margin-left: 10px;">
+                    Hmac Auth: <a href="javascript:void(0);" class="tooltipP" data-toggle="tooltip" title="If needed"><span class="glyphicon glyphicon-info-sign"></span></a>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control input-sm" placeholder="Username" id="hmac_auth_username">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control input-sm" placeholder="Authorization" id="hmac_auth_authorization">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control input-sm" placeholder="Request-Date" id="hmac_auth_date">
+                </div>
                 <div class="form-group">
                     <button type="button" class="btn btn-success btn-sm tooltipP" data-toggle="tooltip" title="Save API key and Basic Auth data in localstorage" id="save_auth_data">
                         <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
@@ -158,6 +172,9 @@
         if (storage) {
             $('#basic_auth_username').val(storage.getItem('basicAuthUsername'));
             $('#basic_auth_password').val(storage.getItem('basicAuthPassword'));
+            $('#hmac_auth_username').val(storage.getItem('hmacAuthUsername'));
+            $('#hmac_auth_authorization').val(storage.getItem('hmacAuthAuthorization'));
+            $('#hmac_auth_date').val(storage.getItem('hmacAuthDate'));
             $('#apikey_key').val(storage.getItem('apiKey'));
             $('#apikey_value').val(storage.getItem('apiKeyValue'));
         }
@@ -197,6 +214,9 @@
             if (storage) {
                 storage.setItem('basicAuthUsername', $('#basic_auth_username').val());
                 storage.setItem('basicAuthPassword', $('#basic_auth_password').val());
+                storage.setItem('hmacAuthUsername', $('#hmac_auth_username').val());
+                storage.setItem('hmacAuthAuthorization', $('#hmac_auth_authorization').val());
+                storage.setItem('hmacAuthDate', $('#hmac_auth_date').val());
                 storage.setItem('apiKey', $('#apikey_key').val());
                 storage.setItem('apiKeyValue', $('#apikey_value').val());
             } else {
@@ -237,6 +257,9 @@
 
             var basicAuthUsername = $('#basic_auth_username').val();
             var basicAuthPassword = $('#basic_auth_password').val();
+            var hmacAuthUsername = $('#hmac_auth_username').val();
+            var hmacAuthAuthorization = $('#hmac_auth_authorization').val();
+            var hmacAuthDate = $('#hmac_auth_date').val();
             var apiKey = $('#apikey_key').val();
             var apiKeyValue = $('#apikey_value').val();
 
@@ -246,6 +269,11 @@
 
             if (basicAuthUsername != '' && basicAuthPassword != '') {
                 st_headers['Authorization'] = "Basic " + btoa(basicAuthUsername + ":" + basicAuthPassword);
+            }
+            
+            if (hmacAuthUsername != '' && hmacAuthAuthorization != '' && hmacAuthDate != '') {
+                st_headers['Authorization'] = "Hmac " + hmacAuthUsername + ":1258:[" + hmacAuthAuthorization + "]";
+                st_headers['Request-Date'] = hmacAuthDate;
             }
 
             $("#sandbox" + theId + " .headers input[type=text]").each(function() {
