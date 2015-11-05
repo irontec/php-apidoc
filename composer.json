@@ -1,9 +1,9 @@
 {
-    "name": "crada/php-apidoc",
+    "name": "irontec/php-apidoc",
     "type": "library",
     "description": "Generate documentation for php API based application. No dependency. No framework required.",
     "keywords": ["php","api","documentation","generator"],
-    "homepage": "https://github.com/calinrada/php-apidoc",
+    "homepage": "https://github.com/irontec/php-apidoc",
     "license": "MIT",
     "authors": [
         {
